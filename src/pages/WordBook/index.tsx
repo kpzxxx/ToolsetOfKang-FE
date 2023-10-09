@@ -1,6 +1,7 @@
 import React from 'react';
 
 const WordBook: React.FC = () => {
-  return <div>Test</div>;
+  return <div>test</div>;
 };
+
 export default WordBook;
