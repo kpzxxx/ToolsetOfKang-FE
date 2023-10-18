@@ -48,11 +48,13 @@
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
     "@ant-design/pro-components": "^2.3.57",
+    "@ant-design/pro-utils": "^2.14.8",
     "@ant-design/use-emotion-css": "1.0.4",
     "@umijs/route-utils": "^2.2.2",
     "antd": "^5.2.2",
     "classnames": "^2.3.2",
     "lodash": "^4.17.21",
+    "max": "^0.0.1",
     "moment": "^2.29.4",
     "omit.js": "^2.0.2",
     "rc-menu": "^9.8.2",
