@@ -58,7 +58,7 @@ const WordBook: React.FC = () => {
   // };
 
   useEffect(() => {
-    fetch('http://localhost:8080/word/get?type=date')
+    fetch('http://localhost:8090/word/get?type=date')
       .then((response) => response.json())
       .then((data) => {
         let _tagData = data.data.date;
@@ -72,7 +72,7 @@ const WordBook: React.FC = () => {
 
   const handleDelete = () => {
     if (deleteWords !== '') {
-      const deleteUrl = 'http://localhost:8080/word/delete?word=';
+      const deleteUrl = 'http://localhost:8090/word/delete?word=';
       fetch(deleteUrl + deleteWords, {
         method: 'DELETE',
         mode: 'cors',
@@ -97,7 +97,7 @@ const WordBook: React.FC = () => {
   };
 
   const searchWord = (value: string) => {
-    fetch('http://localhost:8080/word/find?word=' + value)
+    fetch('http://localhost:8090/word/find?word=' + value)
       .then((response) => response.json())
       .then((data) => {
         // let isSuccess = data.data ? 'success' : 'warn';
