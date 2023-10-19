@@ -29,6 +29,12 @@ export default [
     component: './Welcome',
   },
   {
+    name: 'wordbook.list',
+    icon: 'bold',
+    path: '/wordbook',
+    component: './WordBook',
+  },
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',
