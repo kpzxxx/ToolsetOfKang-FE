@@ -12,17 +12,18 @@ import {
   Tag,
   Tooltip,
 } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './index.less';
 
 const { Search } = Input;
 const api = notification;
 const WordBook: React.FC = () => {
   const [nowTab, setNowTab] = useState('date');
-  const [tagData, setTagData] = useState([]);
-  const [total, setTotal] = useState(0);
+  const [tagData] = useState([]);
+  const [total] = useState(0);
   const [editing, setEditing] = useState(false);
   const [deleteWords, setDeleteWords] = useState('');
+  // const [visible, setVisible] = useState(false);
   // const [visible, setVisible] = useState(false);
   const colors = [
     'magenta',
@@ -42,33 +43,17 @@ const WordBook: React.FC = () => {
     // getData(e.target.value);
   };
 
-  // const getData = (type: string) => {
-  //     if (!type) {
-  //         type = 'date';
-  //     }
-  //     fetch("http://localhost:8080/word/get?type=" + type).then(response => response.json())
-  //         .then(data => {
-  //             let _tagData = type === 'date' ? data.data.date : data.data.alpha;
-  //
-  //             _tagData = _tagData.slice(0, 30);
-  //
-  //             setTagData(_tagData);
-  //             setTotal(data.data.total);
-  //         });
-  // };
+  // useEffect(() => {
+  //     const result = getData();
+  // }, []);
 
-  useEffect(() => {
-    fetch('http://localhost:8090/word/get?type=date')
-      .then((response) => response.json())
-      .then((data) => {
-        let _tagData = data.data.date;
-
-        _tagData = _tagData.slice(0, 30);
-
-        setTagData(_tagData);
-        setTotal(data.data.total);
-      });
-  }, []);
+  // const getData = async () => {
+  //     const result = await getWords();
+  //     console.log(result);
+  //     let _tagData = result?.data?.date;
+  //     setTagData(_tagData);
+  //     setTotal(result?.data?.total);
+  // }
 
   const handleDelete = () => {
     if (deleteWords !== '') {
@@ -113,10 +98,6 @@ const WordBook: React.FC = () => {
       });
   };
 
-  // const showInput = (key : string) => {
-  //     this.setState({ inputVisibleKey: key }, () => this.input[key].focus());
-  // };
-
   return (
     <div>
       <FloatButton.BackTop />
@@ -142,11 +123,10 @@ const WordBook: React.FC = () => {
           <Search placeholder="search" onSearch={(value) => searchWord(value)} />
         </Col>
         <Col span={4} style={{ textAlign: 'right' }}>
-          {/*<Button*/}
-          {/*    type={'primary'}*/}
-          {/*    onClick={() => setVisible(true)}>*/}
-          {/*    <PlusCircleTwoTone/>Add*/}
-          {/*</Button>*/}
+          <Button type={'primary'} onClick={() => setVisible(true)}>
+            <PlusCircleTwoTone />
+            Add
+          </Button>
 
           {!editing && (
             <Button onClick={() => setEditing(true)}>
@@ -174,7 +154,6 @@ const WordBook: React.FC = () => {
                 </Divider>
                 <Row>
                   {data.words.map((value: WordBook.Word) => {
-                    // if (expand[index] || wordIndex <= expandNum || nowTab === 'date') {
                     return (
                       <Tooltip
                         title={value.meaning ? value.meaning : value.word}
@@ -191,57 +170,12 @@ const WordBook: React.FC = () => {
                         </Tag>
                       </Tooltip>
                     );
-                    // }
-                    // return <div/>;
                   })}
-                  {/*{!editing && nowTab === "date" && inputVisibleKey === data.date && (*/}
-                  {/*    <Input*/}
-                  {/*        ref={input => saveInputRef(input, data.date)}*/}
-                  {/*        type={"text"}*/}
-                  {/*        size={"default"}*/}
-                  {/*        value={inputValue}*/}
-                  {/*        style={{width: "150px"}}*/}
-                  {/*        onChange={(e) => this.setState({inputValue: e.target.value})}*/}
-                  {/*        onBlur={() => this.handleInputConfirm(data.date)}*/}
-                  {/*        onPressEnter={() => this.handleInputConfirm(data.date)}*/}
-                  {/*    />*/}
-                  {/*)}*/}
-
-                  {/*{!editing && nowTab === "date" && inputVisibleKey !== data.date && (*/}
-                  <Tag color={color} className={'larger-font'}>
-                    <PlusCircleTwoTone />
-                  </Tag>
-                  {/*)}*/}
-                  {/*{!editing && nowTab === "alpha" && !expand[index] && data.words.length > expandNum && (*/}
-                  {/*    <Tag onClick={() => {*/}
-                  {/*        this.expand(index, true)*/}
-                  {/*    }} color={color}*/}
-                  {/*         className={"larger-font"}>*/}
-                  {/*        <Icon type={"down"}/>*/}
-                  {/*    </Tag>*/}
-                  {/*)}*/}
-                  {/*{!editing && nowTab === "alpha" && expand[index] && (*/}
-                  {/*    <Tag onClick={() => {*/}
-                  {/*        this.expand(index, false)*/}
-                  {/*    }} color={color}*/}
-                  {/*         className={"larger-font"}>*/}
-                  {/*        <Icon type={"up"}/>*/}
-                  {/*    </Tag>*/}
-                  {/*)}*/}
                 </Row>
               </div>
             </div>
           );
         })}
-
-      {/*<AddFormModal*/}
-      {/*    title={"Add"}*/}
-      {/*    dataNames={dataNames}*/}
-      {/*    wrappedComponentRef={this.saveFormRef}*/}
-      {/*    visible={this.state.visible}*/}
-      {/*    onCreate={this.handleAdd}*/}
-      {/*    onCancel={() => this.setState({visible: false})}*/}
-      {/*/>*/}
     </div>
   );
 };

@@ -83,3 +83,13 @@ export async function removeRule(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
+
+export async function getWords(options?: { [key: string]: any }) {
+  return request<Record<string, any>>('http://47.98.126.132:8090/word/get?type=date', {
+    method: 'GET',
+    ...(options || {}),
+    headers: {
+      Authorization: 'AABBCC',
+    },
+  });
+}
