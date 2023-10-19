@@ -93,3 +93,27 @@ export async function getWords(options?: { [key: string]: any }) {
     },
   });
 }
+
+export async function saveWord(word: string, options?: { [key: string]: any }) {
+  return request<Record<string, any>>('http://47.98.126.132:8090/word/save', {
+    method: 'POST',
+    ...(options || {}),
+    headers: {
+      Authorization: 'AABBCC',
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    data: word,
+  });
+}
+
+export async function deleteWord(words: string, options?: { [key: string]: any }) {
+  return request<Record<string, any>>('http://47.98.126.132:8090/word/delete?word=' + words, {
+    method: 'DELETE',
+    ...(options || {}),
+    headers: {
+      Authorization: 'AABBCC',
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    data: {},
+  });
+}

@@ -1,10 +1,14 @@
+import { deleteWord, getWords, saveWord } from '@/services/ant-design-pro/api';
+import { FormattedMessage } from '@@/exports';
 import { EditTwoTone, PlusCircleTwoTone, SaveTwoTone } from '@ant-design/icons';
+import { ModalForm, ProFormDatePicker, ProFormText } from '@ant-design/pro-components';
 import {
   Button,
   Col,
   Divider,
   FloatButton,
   Input,
+  message,
   notification,
   Progress,
   Radio,
@@ -12,19 +16,19 @@ import {
   Tag,
   Tooltip,
 } from 'antd';
-import React, { useState } from 'react';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import './index.less';
 
 const { Search } = Input;
 const api = notification;
 const WordBook: React.FC = () => {
   const [nowTab, setNowTab] = useState('date');
-  const [tagData] = useState([]);
-  const [total] = useState(0);
+  const [tagData, setTagData] = useState([]);
+  const [total, setTotal] = useState(0);
   const [editing, setEditing] = useState(false);
   const [deleteWords, setDeleteWords] = useState('');
-  // const [visible, setVisible] = useState(false);
-  // const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
   const colors = [
     'magenta',
     'red',
@@ -38,39 +42,43 @@ const WordBook: React.FC = () => {
     'geekblue',
     'purple',
   ];
+
+  const getData = async () => {
+    const result = await getWords();
+    console.log(result);
+    let _tagData = result?.data?.date;
+    setTagData(_tagData);
+    setTotal(result?.data?.total);
+  };
   const onTabChange = (e: any) => {
     setNowTab(e.target.value);
     // getData(e.target.value);
   };
 
-  // useEffect(() => {
-  //     const result = getData();
-  // }, []);
+  useEffect(() => {
+    const result = getData();
+    console.log(result);
+  }, []);
 
-  // const getData = async () => {
-  //     const result = await getWords();
-  //     console.log(result);
-  //     let _tagData = result?.data?.date;
-  //     setTagData(_tagData);
-  //     setTotal(result?.data?.total);
-  // }
+  const handleAdd = async (word: WordBook.AddWord) => {
+    const hide = message.loading('正在添加');
+    try {
+      await saveWord(JSON.stringify(word));
+      hide();
+      message.success('Added successfully');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('Adding failed, please try again!');
+      return false;
+    }
+  };
 
   const handleDelete = () => {
     if (deleteWords !== '') {
-      const deleteUrl = 'http://localhost:8090/word/delete?word=';
-      fetch(deleteUrl + deleteWords, {
-        method: 'DELETE',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          // getData(nowTab);
-          // sucessNotification();
-        });
+      let b = deleteWord(deleteWords);
+      getData();
+      console.log(b);
     }
 
     setEditing(false);
@@ -101,7 +109,6 @@ const WordBook: React.FC = () => {
   return (
     <div>
       <FloatButton.BackTop />
-
       <Row>
         <Col span={4}>
           <Radio.Group defaultValue={'date'} buttonStyle={'solid'} onChange={onTabChange}>
@@ -142,7 +149,6 @@ const WordBook: React.FC = () => {
           )}
         </Col>
       </Row>
-
       {tagData &&
         tagData.map((data: WordBook.Words, index) => {
           let color = colors[index % colors.length];
@@ -176,6 +182,37 @@ const WordBook: React.FC = () => {
             </div>
           );
         })}
+      ;
+      <ModalForm
+        title="New word"
+        width="400px"
+        open={visible}
+        onOpenChange={setVisible}
+        onFinish={async (value) => {
+          const success = await handleAdd(value as WordBook.AddWord);
+          if (success) {
+            setVisible(false);
+            getData();
+          }
+        }}
+      >
+        <ProFormText
+          rules={[
+            {
+              required: true,
+              message: (
+                <FormattedMessage
+                  id="pages.searchTable.ruleName"
+                  defaultMessage="Word is required"
+                />
+              ),
+            },
+          ]}
+          width="md"
+          name="word"
+        />
+        <ProFormDatePicker width="md" name="date" initialValue={moment()} />
+      </ModalForm>
     </div>
   );
 };

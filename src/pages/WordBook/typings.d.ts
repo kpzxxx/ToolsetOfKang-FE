@@ -10,4 +10,9 @@ declare namespace WordBook {
     meaning?: string;
     word: string;
   };
+
+  type AddWord = {
+    word: string;
+    date: string;
+  };
 }
