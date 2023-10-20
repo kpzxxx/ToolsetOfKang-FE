@@ -56,16 +56,20 @@ const WordBook: React.FC = () => {
   };
 
   useEffect(() => {
-    const result = getData();
-    console.log(result);
+    getData().then((r) => console.log(r));
   }, []);
 
   const handleAdd = async (word: WordBook.AddWord) => {
     const hide = message.loading('正在添加');
     try {
-      await saveWord(JSON.stringify(word));
+      let result = await saveWord(JSON.stringify(word));
+      console.log(result);
+      if (result?.data?.word) {
+        message.warning(result.data.meaning + ', ' + result.data.date);
+      } else {
+        message.success('Added successfully');
+      }
       hide();
-      message.success('Added successfully');
       return true;
     } catch (error) {
       hide();
@@ -76,9 +80,8 @@ const WordBook: React.FC = () => {
 
   const handleDelete = () => {
     if (deleteWords !== '') {
-      let b = deleteWord(deleteWords);
-      getData();
-      console.log(b);
+      deleteWord(deleteWords).then((r) => console.log(r));
+      getData().then((r) => console.log(r));
     }
 
     setEditing(false);
