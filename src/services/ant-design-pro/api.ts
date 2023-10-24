@@ -2,6 +2,8 @@
 /* eslint-disable */
 import { request } from '@umijs/max';
 
+const URL = 'http://47.98.126.132:8090';
+
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
@@ -22,7 +24,7 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 登录接口 POST /api/login/account */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/login/account', {
+  return request<API.LoginResult>(URL + '/api/login/account', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -85,7 +87,7 @@ export async function removeRule(options?: { [key: string]: any }) {
 }
 
 export async function getWords(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('http://47.98.126.132:8090/word/get?type=date', {
+  return request<Record<string, any>>(URL + '/word/get?type=date', {
     method: 'GET',
     ...(options || {}),
     headers: {
@@ -95,7 +97,7 @@ export async function getWords(options?: { [key: string]: any }) {
 }
 
 export async function saveWord(word: string, options?: { [key: string]: any }) {
-  return request<Record<string, any>>('http://47.98.126.132:8090/word/save', {
+  return request<Record<string, any>>(URL + '/word/save', {
     method: 'POST',
     ...(options || {}),
     headers: {
@@ -107,7 +109,7 @@ export async function saveWord(word: string, options?: { [key: string]: any }) {
 }
 
 export async function deleteWord(words: string, options?: { [key: string]: any }) {
-  return request<Record<string, any>>('http://47.98.126.132:8090/word/delete?word=' + words, {
+  return request<Record<string, any>>(URL + '/word/delete?word=' + words, {
     method: 'DELETE',
     ...(options || {}),
     headers: {
