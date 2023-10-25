@@ -1,16 +1,15 @@
-import { deleteWord, getWords, saveWord } from '@/services/ant-design-pro/api';
+import { deleteWord, getWords, saveWord, searchWord } from '@/services/ant-design-pro/api';
 import { FormattedMessage } from '@@/exports';
 import { EditTwoTone, PlusCircleTwoTone, SaveTwoTone } from '@ant-design/icons';
 import { ModalForm, ProFormDatePicker, ProFormText } from '@ant-design/pro-components';
 import {
-  App,
   Button,
   Col,
   Divider,
   FloatButton,
   Form,
   Input,
-  notification,
+  message,
   Progress,
   Radio,
   Row,
@@ -22,8 +21,7 @@ import React, { useEffect, useState } from 'react';
 import './index.less';
 
 const { Search } = Input;
-const api = notification;
-const WordBook: React.FC = () => {
+const App: React.FC = () => {
   const [nowTab, setNowTab] = useState('date');
   const [tagData, setTagData] = useState([]);
   const [total, setTotal] = useState(0);
@@ -31,7 +29,7 @@ const WordBook: React.FC = () => {
   const [deleteWords, setDeleteWords] = useState('');
   const [visible, setVisible] = useState(false);
   const [form] = Form.useForm();
-  const { message } = App.useApp();
+  const [messageApi] = message.useMessage();
   const colors = [
     'magenta',
     'red',
@@ -57,11 +55,10 @@ const WordBook: React.FC = () => {
   };
   const onTabChange = (e: any) => {
     setNowTab(e.target.value);
-    // getData(e.target.value);
   };
 
   useEffect(() => {
-    getData().then((r) => console.log(r));
+    getData().then();
   }, []);
 
   const handleAdd = async (word: WordBook.AddWord) => {
@@ -73,10 +70,10 @@ const WordBook: React.FC = () => {
       } else {
         success('Added successfully');
       }
-      message.loading('Adding...');
+      messageApi.loading('Adding...');
       return true;
     } catch (error) {
-      message.error('Adding failed, please try again!');
+      messageApi.error('Adding failed, please try again!');
       return false;
     }
   };
@@ -95,25 +92,15 @@ const WordBook: React.FC = () => {
     setDeleteWords(deleteWords === '' ? word : deleteWords.concat(',').concat(word));
   };
 
-  const searchWord = (value: string) => {
-    fetch('http://localhost:8090/word/find?word=' + value)
-      .then((response) => response.json())
-      .then((data) => {
-        // let isSuccess = data.data ? 'success' : 'warn';
-        api.open({
-          message: value,
-          description: data.data
-            ? data.data.meaning + ' (' + data.data.date + ')'
-            : 'Oops, no result!😭',
-          onClick: () => {
-            console.log('Notification Clicked!');
-          },
-        });
-      });
+  const findWord = async (value: string) => {
+    const data = await searchWord(value);
+    message.warning(
+      data.data ? data.data.meaning + ' (' + data.data.date + ')' : 'Oops, no result!😭',
+    );
   };
 
   return (
-    <div>
+    <>
       <FloatButton.BackTop />
       <Row>
         <Col span={4}>
@@ -133,7 +120,7 @@ const WordBook: React.FC = () => {
           />
         </Col>
         <Col span={4} offset={2} style={{ textAlign: 'right' }}>
-          <Search placeholder="search" onSearch={(value) => searchWord(value)} />
+          <Search placeholder="search" onSearch={(value) => findWord(value)} />
         </Col>
         <Col span={4} style={{ textAlign: 'right' }}>
           <Button type={'primary'} onClick={() => setVisible(true)}>
@@ -222,8 +209,8 @@ const WordBook: React.FC = () => {
         />
         <ProFormDatePicker width="md" name="date" initialValue={moment()} />
       </ModalForm>
-    </div>
+    </>
   );
 };
 
-export default WordBook;
+export default App;

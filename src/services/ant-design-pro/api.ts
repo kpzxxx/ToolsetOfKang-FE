@@ -24,7 +24,8 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 登录接口 POST /api/login/account */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>(URL + '/api/login/account', {
+  // return request<API.LoginResult>(URL + '/api/login/account', {
+  return request<API.LoginResult>('/api/login/account', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -111,6 +112,18 @@ export async function saveWord(word: string, options?: { [key: string]: any }) {
 export async function deleteWord(words: string, options?: { [key: string]: any }) {
   return request<Record<string, any>>(URL + '/word/delete?word=' + words, {
     method: 'DELETE',
+    ...(options || {}),
+    headers: {
+      Authorization: 'AABBCC',
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    data: {},
+  });
+}
+
+export async function searchWord(word: string, options?: { [key: string]: any }) {
+  return request<Record<string, any>>(URL + '/word/find?word=' + word, {
+    method: 'GET',
     ...(options || {}),
     headers: {
       Authorization: 'AABBCC',
