@@ -3,12 +3,13 @@ import { FormattedMessage } from '@@/exports';
 import { EditTwoTone, PlusCircleTwoTone, SaveTwoTone } from '@ant-design/icons';
 import { ModalForm, ProFormDatePicker, ProFormText } from '@ant-design/pro-components';
 import {
+  App,
   Button,
   Col,
   Divider,
   FloatButton,
+  Form,
   Input,
-  message,
   notification,
   Progress,
   Radio,
@@ -29,6 +30,8 @@ const WordBook: React.FC = () => {
   const [editing, setEditing] = useState(false);
   const [deleteWords, setDeleteWords] = useState('');
   const [visible, setVisible] = useState(false);
+  const [form] = Form.useForm();
+  const { message } = App.useApp();
   const colors = [
     'magenta',
     'red',
@@ -43,6 +46,8 @@ const WordBook: React.FC = () => {
     'purple',
   ];
 
+  const warning = (msg: string) => message.warning(msg);
+  const success = (msg: string) => message.success(msg);
   const getData = async () => {
     const result = await getWords();
     console.log(result);
@@ -60,19 +65,17 @@ const WordBook: React.FC = () => {
   }, []);
 
   const handleAdd = async (word: WordBook.AddWord) => {
-    const hide = message.loading('正在添加');
     try {
       let result = await saveWord(JSON.stringify(word));
       console.log(result);
       if (result?.data?.word) {
-        message.warning(result.data.meaning + ', ' + result.data.date);
+        warning(result.data.meaning + ', ' + result.data.date);
       } else {
-        message.success('Added successfully');
+        success('Added successfully');
       }
-      hide();
+      message.loading('Adding...');
       return true;
     } catch (error) {
-      hide();
       message.error('Adding failed, please try again!');
       return false;
     }
@@ -81,7 +84,7 @@ const WordBook: React.FC = () => {
   const handleDelete = () => {
     if (deleteWords !== '') {
       deleteWord(deleteWords).then((r) => console.log(r));
-      getData().then((r) => console.log(r));
+      getData().then();
     }
 
     setEditing(false);
@@ -189,13 +192,16 @@ const WordBook: React.FC = () => {
       <ModalForm
         title="New word"
         width="400px"
+        form={form}
         open={visible}
         onOpenChange={setVisible}
         onFinish={async (value) => {
           const success = await handleAdd(value as WordBook.AddWord);
+
           if (success) {
             setVisible(false);
-            getData();
+            await getData();
+            form.resetFields();
           }
         }}
       >
