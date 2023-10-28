@@ -1,6 +1,6 @@
 declare namespace WordBook {
   type Words = {
-    words: [];
+    words: Word[];
     date?: string;
     alpha?: string;
   };
@@ -13,6 +13,6 @@ declare namespace WordBook {
 
   type AddWord = {
     word: string;
-    date: string;
+    meaning?: string;
   };
 }

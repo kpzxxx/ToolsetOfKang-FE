@@ -1,7 +1,6 @@
 import { deleteWord, getWords, saveWord, searchWord } from '@/services/ant-design-pro/api';
-import { FormattedMessage } from '@@/exports';
-import { EditTwoTone, PlusCircleTwoTone, SaveTwoTone } from '@ant-design/icons';
-import { ModalForm, ProFormDatePicker, ProFormText } from '@ant-design/pro-components';
+import { CloseCircleTwoTone, EditTwoTone, PlusCircleTwoTone, SaveTwoTone } from '@ant-design/icons';
+import { ModalForm, ProFormText } from '@ant-design/pro-components';
 import {
   Button,
   Col,
@@ -11,18 +10,15 @@ import {
   Input,
   message,
   Progress,
-  Radio,
   Row,
   Tag,
   Tooltip,
 } from 'antd';
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import './index.less';
 
 const { Search } = Input;
 const App: React.FC = () => {
-  const [nowTab, setNowTab] = useState('date');
   const [tagData, setTagData] = useState([]);
   const [total, setTotal] = useState(0);
   const [editing, setEditing] = useState(false);
@@ -53,9 +49,6 @@ const App: React.FC = () => {
     setTagData(_tagData);
     setTotal(result?.data?.total);
   };
-  const onTabChange = (e: any) => {
-    setNowTab(e.target.value);
-  };
 
   useEffect(() => {
     getData().then();
@@ -80,8 +73,7 @@ const App: React.FC = () => {
 
   const handleDelete = () => {
     if (deleteWords !== '') {
-      deleteWord(deleteWords).then((r) => console.log(r));
-      getData().then();
+      deleteWord(deleteWords).then(() => getData());
     }
 
     setEditing(false);
@@ -103,13 +95,7 @@ const App: React.FC = () => {
     <>
       <FloatButton.BackTop />
       <Row>
-        <Col span={4}>
-          <Radio.Group defaultValue={'date'} buttonStyle={'solid'} onChange={onTabChange}>
-            <Radio.Button value={'date'}>Date</Radio.Button>
-            <Radio.Button value={'alpha'}>Alphabets</Radio.Button>
-          </Radio.Group>
-        </Col>
-        <Col span={10}>
+        <Col span={12}>
           <Progress
             status="active"
             percent={total / 50}
@@ -122,7 +108,7 @@ const App: React.FC = () => {
         <Col span={4} offset={2} style={{ textAlign: 'right' }}>
           <Search placeholder="search" onSearch={(value) => findWord(value)} />
         </Col>
-        <Col span={4} style={{ textAlign: 'right' }}>
+        <Col span={6} style={{ textAlign: 'right' }}>
           <Button type={'primary'} onClick={() => setVisible(true)}>
             <PlusCircleTwoTone />
             Add
@@ -135,9 +121,15 @@ const App: React.FC = () => {
             </Button>
           )}
           {editing && (
-            <Button onClick={() => handleDelete()}>
+            <Button onClick={() => handleDelete()} danger type={'primary'}>
               <SaveTwoTone />
               Save
+            </Button>
+          )}
+          {editing && (
+            <Button onClick={() => setEditing(false)}>
+              <CloseCircleTwoTone />
+              Cancel
             </Button>
           )}
         </Col>
@@ -149,7 +141,7 @@ const App: React.FC = () => {
             <div key={data.date}>
               <div>
                 <Divider orientation="left" dashed>
-                  {nowTab === 'date' ? data.date : data.alpha} ({data.words.length})
+                  {data.date} ({data.words.length})
                 </Divider>
                 <Row>
                   {data.words.map((value: WordBook.Word) => {
@@ -175,7 +167,6 @@ const App: React.FC = () => {
             </div>
           );
         })}
-      ;
       <ModalForm
         title="New word"
         width="400px"
@@ -196,18 +187,12 @@ const App: React.FC = () => {
           rules={[
             {
               required: true,
-              message: (
-                <FormattedMessage
-                  id="pages.searchTable.ruleName"
-                  defaultMessage="Word is required"
-                />
-              ),
+              message: 'Word is required',
             },
           ]}
           width="md"
           name="word"
         />
-        <ProFormDatePicker width="md" name="date" initialValue={moment()} />
       </ModalForm>
     </>
   );
