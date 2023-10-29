@@ -1,6 +1,7 @@
+import UpdateWord from '@/pages/WordBook/components/UpdateWord';
 import { deleteWord, getWords, saveWord, searchWord } from '@/services/ant-design-pro/api';
 import { CloseCircleTwoTone, EditTwoTone, PlusCircleTwoTone, SaveTwoTone } from '@ant-design/icons';
-import { ModalForm, ProFormText } from '@ant-design/pro-components';
+import { ModalForm, PageContainer, ProFormText } from '@ant-design/pro-components';
 import {
   Button,
   Col,
@@ -23,7 +24,8 @@ const App: React.FC = () => {
   const [total, setTotal] = useState(0);
   const [editing, setEditing] = useState(false);
   const [deleteWords, setDeleteWords] = useState('');
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [updateOpen, setUpdateOpen] = useState<boolean>(false);
   const [form] = Form.useForm();
   const [messageApi] = message.useMessage();
   const colors = [
@@ -39,12 +41,12 @@ const App: React.FC = () => {
     'geekblue',
     'purple',
   ];
+  const [currentRow, setCurrentRow] = useState<WordBook.AddWord>();
 
   const warning = (msg: string) => message.warning(msg);
   const success = (msg: string) => message.success(msg);
   const getData = async () => {
     const result = await getWords();
-    console.log(result);
     let _tagData = result?.data?.date;
     setTagData(_tagData);
     setTotal(result?.data?.total);
@@ -61,12 +63,12 @@ const App: React.FC = () => {
       if (result?.data?.word) {
         warning(result.data.meaning + ', ' + result.data.date);
       } else {
-        success('Added successfully');
+        success('Save successfully');
       }
-      messageApi.loading('Adding...');
+      messageApi.loading('saving...');
       return true;
     } catch (error) {
-      messageApi.error('Adding failed, please try again!');
+      messageApi.error('Save failed, please try again!');
       return false;
     }
   };
@@ -92,7 +94,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <>
+    <PageContainer>
       <FloatButton.BackTop />
       <Row>
         <Col span={12}>
@@ -109,19 +111,26 @@ const App: React.FC = () => {
           <Search placeholder="search" onSearch={(value) => findWord(value)} />
         </Col>
         <Col span={6} style={{ textAlign: 'right' }}>
-          <Button type={'primary'} onClick={() => setVisible(true)}>
-            <PlusCircleTwoTone />
-            Add
-          </Button>
+          {!editing && (
+            <Button type={'primary'} onClick={() => setVisible(true)}>
+              <PlusCircleTwoTone />
+              Add
+            </Button>
+          )}
 
           {!editing && (
-            <Button onClick={() => setEditing(true)}>
+            <Button
+              onClick={() => {
+                setEditing(true);
+                form.resetFields();
+              }}
+            >
               <EditTwoTone />
               Edit
             </Button>
           )}
           {editing && (
-            <Button onClick={() => handleDelete()} danger type={'primary'}>
+            <Button onClick={() => handleDelete()} type={'primary'}>
               <SaveTwoTone />
               Save
             </Button>
@@ -156,6 +165,10 @@ const App: React.FC = () => {
                           className={'larger-font'}
                           closable={editing}
                           onClose={() => handleClose(value.word)}
+                          onClick={() => {
+                            setUpdateOpen(true);
+                            setCurrentRow(value);
+                          }}
                         >
                           {value.word}
                         </Tag>
@@ -192,9 +205,23 @@ const App: React.FC = () => {
           ]}
           width="md"
           name="word"
+          label={'Word'}
+          initialValue={''}
         />
       </ModalForm>
-    </>
+      <UpdateWord
+        word={currentRow || {}}
+        updateModalOpen={updateOpen}
+        onCancel={setUpdateOpen}
+        onSubmit={(value) => {
+          let promise = handleAdd(value as WordBook.AddWord);
+          setCurrentRow(undefined);
+          setUpdateOpen(false);
+          promise.then(() => getData());
+          return promise;
+        }}
+      />
+    </PageContainer>
   );
 };
 
