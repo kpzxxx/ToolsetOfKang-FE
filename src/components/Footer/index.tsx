@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
   const intl = useIntl();
   const defaultMessage = intl.formatMessage({
     id: 'app.copyright.produced',
-    defaultMessage: '蚂蚁集团体验技术部出品',
+    defaultMessage: '杭州蓝猫科技有限公司出品',
   });
 
   const currentYear = new Date().getFullYear();
