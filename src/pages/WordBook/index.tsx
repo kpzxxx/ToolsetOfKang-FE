@@ -10,6 +10,7 @@ import {
   Form,
   Input,
   message,
+  Pagination,
   Progress,
   Row,
   Tag,
@@ -180,6 +181,9 @@ const App: React.FC = () => {
             </div>
           );
         })}
+      <Row justify={'end'}>
+        <Pagination defaultCurrent={1} defaultPageSize={50} total={1905}></Pagination>
+      </Row>
       <ModalForm
         title="New word"
         width="400px"
