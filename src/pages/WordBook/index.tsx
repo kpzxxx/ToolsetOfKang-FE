@@ -23,6 +23,7 @@ const { Search } = Input;
 const App: React.FC = () => {
   const [tagData, setTagData] = useState([]);
   const [total, setTotal] = useState(0);
+  const [wordTotal, setWordTotal] = useState<number>(0);
   const [editing, setEditing] = useState(false);
   const [deleteWords, setDeleteWords] = useState('');
   const [visible, setVisible] = useState<boolean>(false);
@@ -43,19 +44,30 @@ const App: React.FC = () => {
     'purple',
   ];
   const [currentRow, setCurrentRow] = useState<WordBook.AddWord>();
+  const [current, setCurrent] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(10);
 
   const warning = (msg: string) => message.warning(msg);
   const success = (msg: string) => message.success(msg);
-  const getData = async () => {
-    const result = await getWords();
+  const getData = async (p?: number, ps?: number) => {
+    const result = await getWords({
+      params: { current: p ? p : current, pageSize: ps ? ps : pageSize },
+    });
     let _tagData = result?.data?.date;
     setTagData(_tagData);
     setTotal(result?.data?.total);
+    setWordTotal(result?.data?.wordTotal);
+    return result;
   };
 
   useEffect(() => {
     getData().then();
   }, []);
+
+  const onChange = (page: number, pageSize: number) => {
+    setCurrent(page);
+    setPageSize(pageSize);
+  };
 
   const handleAdd = async (word: WordBook.AddWord) => {
     try {
@@ -101,7 +113,7 @@ const App: React.FC = () => {
         <Col span={12}>
           <Progress
             status="active"
-            percent={total / 50}
+            percent={wordTotal / 50}
             size={[500, 20]}
             strokeColor="#1890ff"
             style={{ paddingTop: '4px' }}
@@ -182,7 +194,14 @@ const App: React.FC = () => {
           );
         })}
       <Row justify={'end'}>
-        <Pagination defaultCurrent={1} defaultPageSize={50} total={1905}></Pagination>
+        <Pagination
+          current={current}
+          pageSize={pageSize}
+          onChange={(page, pageSize) =>
+            getData(page, pageSize).then(() => onChange(page, pageSize))
+          }
+          total={total}
+        ></Pagination>
       </Row>
       <ModalForm
         title="New word"

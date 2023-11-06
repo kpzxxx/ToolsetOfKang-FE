@@ -8,8 +8,12 @@ const URL = 'http://47.98.126.132:8090';
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
     data: API.CurrentUser;
-  }>('/api/currentUser', {
+  }>(URL + '/user/login/current', {
     method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'AABBCC',
+    },
     ...(options || {}),
   });
 }
@@ -88,7 +92,7 @@ export async function removeRule(options?: { [key: string]: any }) {
 }
 
 export async function getWords(options?: { [key: string]: any }) {
-  return request<Record<string, any>>(URL + '/word/get?type=date', {
+  return request<Record<string, any>>(URL + '/word/get', {
     method: 'GET',
     ...(options || {}),
     headers: {
