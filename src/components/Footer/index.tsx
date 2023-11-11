@@ -19,8 +19,8 @@ const Footer: React.FC = () => {
       copyright={`${currentYear} ${defaultMessage}`}
       links={[
         {
-          key: 'Blue Cat Language',
-          title: 'Blue Cat Language',
+          key: 'Blue Cat Tools',
+          title: 'Blue Cat Tools',
           href: '',
           blankTarget: true,
         },

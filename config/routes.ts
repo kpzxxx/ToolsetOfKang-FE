@@ -52,10 +52,23 @@ export default [
     ],
   },
   {
-    name: 'finance.record',
+    name: 'finance',
     path: '/finance',
-    component: './TableList',
+    icon: 'dollar',
+    routes: [
+      {
+        name: 'record',
+        path: '/finance/record',
+        component: './Finance/FinanceRecord',
+      },
+      {
+        name: 'statistics',
+        path: '/finance/statistics',
+        component: './Finance/FinanceStatistics',
+      },
+    ],
   },
+
   // {
   //   name: 'list.table-list',
   //   icon: 'table',

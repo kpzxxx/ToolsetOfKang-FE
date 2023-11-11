@@ -1,5 +1,5 @@
 export default {
-  'pages.layouts.userLayout.title': 'Blue Cat Language 是余杭区最具影响力的语言数据软件',
+  'pages.layouts.userLayout.title': 'Blue Cat 是余杭区最具影响力的个人管理工具',
   'pages.login.accountLogin.tab': '账户密码登录',
   'pages.login.accountLogin.errorMessage': '错误的用户名和密码(admin/ant.design)',
   'pages.login.failure': '登录失败，请重试！',
