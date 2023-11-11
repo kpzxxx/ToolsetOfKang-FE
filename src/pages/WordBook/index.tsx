@@ -218,6 +218,8 @@ const App: React.FC = () => {
             form.resetFields();
           }
         }}
+        autoFocusFirstInput={true}
+        isKeyPressSubmit={true}
       >
         <ProFormText
           rules={[

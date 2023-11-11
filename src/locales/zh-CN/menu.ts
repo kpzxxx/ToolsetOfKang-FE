@@ -51,4 +51,6 @@ export default {
   'menu.editor.koni': '拓扑编辑器',
   'menu.wordbook': '单词页',
   'menu.wordbook.list': '单词管理',
+  'menu.finance': '财务页',
+  'menu.finance.record': '财务管理',
 };

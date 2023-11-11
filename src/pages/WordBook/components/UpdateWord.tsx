@@ -24,6 +24,7 @@ const UpdateWord: React.FC<UpdateWordProps> = (props) => {
       width="400px"
       formRef={formRef}
       open={props.updateModalOpen}
+      isKeyPressSubmit={true}
       onOpenChange={(visible) => {
         if (visible) {
           changeForm();
@@ -44,6 +45,7 @@ const UpdateWord: React.FC<UpdateWordProps> = (props) => {
         width="md"
         name="word"
         label={'Word'}
+        disabled
       />
       <ProFormText
         rules={[

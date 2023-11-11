@@ -15,7 +15,7 @@ const Settings: ProLayoutProps & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'Blue Cat Language',
+  title: 'Blue Cat Tools',
   pwa: true,
   logo: 'logo-v1.png',
   iconfontUrl: '',
