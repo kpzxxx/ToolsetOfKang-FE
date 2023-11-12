@@ -4,6 +4,6 @@ declare namespace Finance {
     date: string;
     type: string;
     amount: number;
-    desc?: string;
+    remark?: string;
   };
 }

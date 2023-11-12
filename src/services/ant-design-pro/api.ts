@@ -136,3 +136,27 @@ export async function searchWord(word: string, options?: { [key: string]: any })
     data: {},
   });
 }
+
+export async function financeRecordPage(
+  params: {
+    // query
+    /** 当前的页码 */
+    current?: number;
+    /** 页面的容量 */
+    pageSize?: number;
+  },
+  options?: { [key: string]: any },
+) {
+  return request<Record<string, any>>(
+    '/api/finance/list?current=' + params.current + '&pageSize=' + params.pageSize,
+    {
+      method: 'GET',
+      ...(options || {}),
+      headers: {
+        Authorization: 'AABBCC',
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      data: {},
+    },
+  );
+}
