@@ -1,7 +1,7 @@
 import { countByAlpha } from '@/services/ant-design-pro/api';
-import { Radar } from '@ant-design/plots';
+import { Column, Radar } from '@ant-design/plots';
 import { PageContainer } from '@ant-design/pro-components';
-import { Col, Row } from 'antd';
+import { Card, Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 type RadarData = {
@@ -19,6 +19,21 @@ const WordStatistics: React.FC = () => {
       setData(temp);
     });
   }, []);
+
+  const columnConfig = {
+    data,
+    xField: 'name',
+    yField: 'value',
+    xAxis: {
+      label: {
+        autoRotate: false,
+      },
+    },
+    // slider: {
+    //   start: 0,
+    //   end: 1,
+    // },
+  };
 
   const config = {
     data: data,
@@ -53,7 +68,14 @@ const WordStatistics: React.FC = () => {
     <PageContainer>
       <Row>
         <Col>
-          <Radar {...config} />
+          <Card title={'按首字母统计(柱状)'}>
+            <Column {...columnConfig} width={600} height={300} />
+          </Card>
+        </Col>
+        <Col offset={1}>
+          <Card title={'按首字母统计(雷达)'}>
+            <Radar {...config} width={600} height={300} />
+          </Card>
         </Col>
       </Row>
     </PageContainer>
