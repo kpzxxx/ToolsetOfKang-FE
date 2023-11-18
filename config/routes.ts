@@ -29,10 +29,21 @@ export default [
     component: './Welcome',
   },
   {
-    name: 'wordbook.list',
+    name: 'wordbook',
     icon: 'bold',
     path: '/wordbook',
-    component: './WordBook',
+    routes: [
+      {
+        name: 'list',
+        path: '/wordbook/manage',
+        component: './WordBook',
+      },
+      {
+        name: 'statistics',
+        path: '/wordbook/statistics',
+        component: './WordBook/WordStatistics',
+      },
+    ],
   },
   {
     path: '/admin',

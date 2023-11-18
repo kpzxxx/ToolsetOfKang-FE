@@ -2,7 +2,8 @@
 /* eslint-disable */
 import { request } from '@umijs/max';
 
-const URL = 'http://47.98.126.132:8090';
+const URL = 'http://localhost:8090';
+// const URL = 'http://47.98.126.132:8090';
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
@@ -159,4 +160,14 @@ export async function financeRecordPage(
       data: {},
     },
   );
+}
+
+export async function countByAlpha() {
+  return request<Record<string, any>>(URL + '/word-statistic/count-by-alpha', {
+    method: 'GET',
+    headers: {
+      Authorization: 'AABBCC',
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+  });
 }

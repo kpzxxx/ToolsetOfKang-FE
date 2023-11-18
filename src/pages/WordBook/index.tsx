@@ -6,7 +6,6 @@ import {
   Button,
   Col,
   Divider,
-  FloatButton,
   Form,
   Input,
   message,
@@ -100,6 +99,9 @@ const App: React.FC = () => {
   };
 
   const findWord = async (value: string) => {
+    if (!value) {
+      return;
+    }
     const data = await searchWord(value);
     message.warning(
       data.data ? data.data.meaning + ' (' + data.data.date + ')' : 'Oops, no result!😭',
@@ -108,7 +110,6 @@ const App: React.FC = () => {
 
   return (
     <PageContainer>
-      <FloatButton.BackTop />
       <Row>
         <Col span={12}>
           <Progress
@@ -120,8 +121,8 @@ const App: React.FC = () => {
             format={(percent) => `${(percent ? percent * 50 : 0).toFixed(0)}/5000`}
           />
         </Col>
-        <Col span={4} offset={2} style={{ textAlign: 'right' }}>
-          <Search placeholder="search" onSearch={(value) => findWord(value)} />
+        <Col span={5} offset={1} style={{ textAlign: 'right' }}>
+          <Search placeholder="search" onSearch={(value) => findWord(value)} allowClear={true} />
         </Col>
         <Col span={6} style={{ textAlign: 'right' }}>
           {!editing && (
@@ -208,6 +209,8 @@ const App: React.FC = () => {
         width="400px"
         form={form}
         open={visible}
+        modalProps={{ closeIcon: false }}
+        autoFocusFirstInput={true}
         onOpenChange={setVisible}
         onFinish={async (value) => {
           const success = await handleAdd(value as WordBook.AddWord);
@@ -218,7 +221,6 @@ const App: React.FC = () => {
             form.resetFields();
           }
         }}
-        autoFocusFirstInput={true}
         isKeyPressSubmit={true}
       >
         <ProFormText
