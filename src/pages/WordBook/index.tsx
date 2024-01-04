@@ -20,7 +20,7 @@ import './index.less';
 
 const { Search } = Input;
 const App: React.FC = () => {
-  const [tagData, setTagData] = useState([]);
+  const [tagData, setTagData] = useState<any[]>([]);
   const [total, setTotal] = useState(0);
   const [wordTotal, setWordTotal] = useState<number>(0);
   const [editing, setEditing] = useState(false);
@@ -100,9 +100,16 @@ const App: React.FC = () => {
 
   const findWord = async (value: string) => {
     if (!value) {
+      getData();
       return;
     }
     const data = await searchWord(value);
+    if (data.data) {
+      let _tagData:any[] = [];
+      _tagData.push({date:data.data.date, words:[{word:value, meaning:data.data.meaning}]})
+      setTagData(_tagData);
+    }
+
     message.warning(
       data.data ? data.data.meaning + ' (' + data.data.date + ')' : 'Oops, no result!😭',
     );

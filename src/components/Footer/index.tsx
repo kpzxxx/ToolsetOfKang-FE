@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
   const intl = useIntl();
   const defaultMessage = intl.formatMessage({
     id: 'app.copyright.produced',
-    defaultMessage: '杭州蓝猫科技有限公司出品',
+    defaultMessage: '杭州獭途科技有限公司出品',
   });
 
   const currentYear = new Date().getFullYear();
@@ -19,8 +19,8 @@ const Footer: React.FC = () => {
       copyright={`${currentYear} ${defaultMessage}`}
       links={[
         {
-          key: 'Blue Cat Tools',
-          title: 'Blue Cat Tools',
+          key: 'Rexbit Tools',
+          title: 'Rexbit Tools',
           href: '',
           blankTarget: true,
         },

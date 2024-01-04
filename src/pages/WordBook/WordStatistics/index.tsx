@@ -1,8 +1,8 @@
-import { countByAlpha } from '@/services/ant-design-pro/api';
-import { Column, Radar } from '@ant-design/plots';
-import { PageContainer } from '@ant-design/pro-components';
-import { Card, Col, Row } from 'antd';
-import React, { useEffect, useState } from 'react';
+import {countByAlpha} from '@/services/ant-design-pro/api';
+import {Column, Radar} from '@ant-design/plots';
+import {PageContainer} from '@ant-design/pro-components';
+import {Card, Col, Row} from 'antd';
+import React, {useEffect, useState} from 'react';
 
 type RadarData = {
   name: string;

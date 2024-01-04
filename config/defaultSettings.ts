@@ -15,7 +15,7 @@ const Settings: ProLayoutProps & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'Blue Cat Tools',
+  title: 'Rexbit Tools',
   pwa: true,
   logo: './logo.png',
   iconfontUrl: '',
