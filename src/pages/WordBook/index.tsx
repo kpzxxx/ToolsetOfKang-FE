@@ -105,9 +105,10 @@ const App: React.FC = () => {
     }
     const data = await searchWord(value);
     if (data.data) {
-      let _tagData:any[] = [];
-      _tagData.push({date:data.data.date, words:[{word:value, meaning:data.data.meaning}]})
+      let _tagData: any[] = [];
+      _tagData.push({ date: data.data.date, words: [{ word: value, meaning: data.data.meaning }] });
       setTagData(_tagData);
+      setTotal(1);
     }
 
     message.warning(
