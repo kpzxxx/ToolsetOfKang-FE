@@ -1,57 +1,54 @@
-# Ant Design Pro
+🦊 Rexbit Tools – Wordbook
 
-This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
+Rexbit Tools is a personal web app designed to help me track and review the English words I learn every day.
+It’s a lightweight wordbook with a focus on clean UI, daily logging, and quick searching.
 
-## Environment Prepare
+⸻
 
-Install `node_modules`:
+🌟 Features
+	•	📅 Daily word tracking – add and group new vocabulary by date
+	•	🔍 Instant search – quickly find any saved word
+	•	📈 Progress overview – visualize learning progress (e.g., total word count bar)
+	•	🎨 Minimal, responsive design – simple and distraction-free layout
 
-```bash
-npm install
-```
+⸻
 
-or
+🛠️ Tech Stack
+	•	Frontend: React + TypeScript
+	•	UI Framework: Ant Design Pro
+	•	Backend: Java Web Application
+	•	Database: MySQL + Redis + Kafka
 
-```bash
-yarn
-```
+⸻
 
-## Provided Scripts
+🚀 Purpose
 
-Ant Design Pro provides some useful script to help you quick start and build with web project, code style check and test.
+This project started as a small personal tool to improve my English vocabulary retention.
+Over time, it has evolved into a simple yet effective daily language-learning tracker.
 
-Scripts provided in `package.json`. It's safe to modify or add additional script:
+⸻
+A clean dashboard showing daily word logs and progress bar.
 
-### Start project
+⸻
 
-```bash
-npm start
-```
+🔗 Demo
+<img width="1536" height="938" alt="image" src="https://github.com/user-attachments/assets/c4728444-b60e-4034-9319-9357aa226681" />
 
-### Build project
 
-```bash
-npm run build
-```
+⸻
 
-### Check code style
+📚 Future Plans
+	•	Add review mode with spaced repetition
+	•	Word tagging and custom notes
+	•	Export to CSV or Anki
 
-```bash
-npm run lint
-```
+⸻
 
-You can also use script to auto fix some lint error:
+👤 Author
 
-```bash
-npm run lint:fix
-```
+Kang (Primo)
+GitHub Profile
 
-### Test code
+⸻
 
-```bash
-npm test
-```
-
-## More
-
-You can view full document on our [official website](https://pro.ant.design). And welcome any feedback in our [github](https://github.com/ant-design/ant-design-pro).
+💬 This project is open-sourced mainly as a personal learning record, but feedback and ideas are always welcome.
